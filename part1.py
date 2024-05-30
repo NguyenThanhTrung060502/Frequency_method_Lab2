@@ -52,8 +52,8 @@ def visualize_results(f, four_img, a, b, title):
     plt.grid(color = 'black', linestyle = '--', linewidth = 0.5)
     
     plt.sca(axes[1])
-    plt.plot(t, four_img(t).real, color='green', label='Real part')
-    plt.plot(t, four_img(t).imag, color='red',  label='Imag part')
+    plt.plot(t, four_img(t).real, color='red', label=r'$\hat{f}(\omega)$')
+    plt.plot(t, f(t).real, color='black',  label='f(t)')
     plt.grid(color = 'black', linestyle = '--', linewidth = 0.5)
     plt.legend()
     plt.show()
@@ -71,18 +71,17 @@ def parseval(f_original, four_img):
 t0 = -15; t1 = 15             
 Ts = 1000           
 t = np.linspace(t0, t1, Ts)
-a_s = np.array([2, 3])
-b_s = np.array([1, 2])
-c_s = np.array([-2, 2])
+a_s = np.array([2, 3, 2])
+b_s = np.array([1, 2, 4])
 
 for i in range(len(a_s)):
     a = a_s[i]; b = b_s[i]
     
     # Rectangle function
-    f_1 = np.vectorize(lambda t :rectangle(t, a, b), otypes=[np.complex_])
-    four_img_1 = fourier_image(f_1, t0, t1)
-    visualize_results(f_1, four_img_1, a, b, 'Rectangle function')
-    parseval(f_1, four_img_1)
+    # f_1 = np.vectorize(lambda t :rectangle(t, a, b), otypes=[np.complex_])
+    # four_img_1 = fourier_image(f_1, t0, t1)
+    # visualize_results(f_1, four_img_1, a, b, 'Rectangle function')
+    # parseval(f_1, four_img_1)
        
     # Triangle function
     # f_2 = np.vectorize(lambda t : triangle(t, a, b), otypes=([np.complex_]))
