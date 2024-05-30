@@ -28,56 +28,53 @@ def fourier_image(f, t0, t1):
 # Plot original function and complex function
 def visualize_results(g, four_img_g, abs_g, a, b):
     fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(5, 15))
-    fig.suptitle('Комплексное a = ' + str(float(a)) + ', b = ' + str(float(b)) + ', c = ' + str(float(c)))
+    fig.suptitle('Case: c = ' + str(float(c)))
     
     plt.sca(axes[0])
     plt.plot(t, g(t).real, color='black', label='g(t)')
     plt.xlabel('t')
-    plt.ylabel('g(t)')
     plt.legend()
     plt.grid(color = 'black', linestyle = '--', linewidth = 0.5)
     
     plt.sca(axes[1])
-    plt.plot(t, abs_g(t), color='black', linewidth=1.25, label='|' + r'$\hat{g}(t)$|' )  
-    plt.xlabel('t')
-    plt.ylabel(r'$\hat{g}(t)$|')
+    plt.plot(t, abs_g(t), color='black', linewidth=1.2, label='|' + r'$\hat{g}(\omega)$|' )  
     plt.legend()
     plt.grid(color = 'black', linestyle = '--', linewidth = 0.5)
 
     plt.sca(axes[2])
-    plt.plot(t, four_img_g(t).real, color='green', label='Real part')
-    plt.plot(t, four_img_g(t).imag, color='red',  label='Imag part')
+    plt.plot(t, four_img_g(t).real, color='green', linewidth=0.75, label='Real part')
+    plt.plot(t, four_img_g(t).imag, color='red', linewidth=0.75, label='Imag part')
     plt.grid(color = 'black', linestyle = '--', linewidth = 0.5)
     plt.legend()
     plt.show()
 
 # Parseval check
-def parseval(g, four_img_g):
+def parseval(g, four_img_g, c):
     four_image_abs = np.vectorize(lambda t: abs(four_img_g(t)))
     tmin = -50; tmax = 50
     parseval_1 = abs(dot_product(g, g, tmin, tmax))
     parseval_2 = dot_product(four_image_abs, four_image_abs, tmin, tmax)
-    print(parseval_1, parseval_2, f'With (a, b) = {a, b}')
+    print(parseval_1, parseval_2, f'With (a, b, c) = {a, b, c}')
 
 
 # Initial data
 t0 = -15; t1 = 15             
 Ts = 1000           
 t = np.linspace(t0, t1, Ts)
-a_s = np.array([2, 3])
-b_s = np.array([1, 2])
-c_s = np.array([-2, 2])
+a = 2
+b = 1
+c_s = np.array([-5, -1, 5, 10])
 
 
 ## Задание 2. Комплексное.
-for i in range(len(a_s)):
-    a = a_s[i]; b = b_s[i]; c = c_s[i]
+for i in range(len(c_s)):
+    c = c_s[i]
     
     g = np.vectorize(lambda t: rectangle(t + c, a, b), otypes=[np.complex_])
     four_img_g = fourier_image(g, t0, t1)
     abs_g = lambda t: abs(four_img_g(t))
     
     visualize_results(g, four_img_g, abs_g, a, b)
-    # parseval(g, four_img_g)
+    parseval(g, four_img_g, c)
     
     
