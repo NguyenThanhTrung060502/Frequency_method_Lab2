@@ -47,7 +47,7 @@ def visualize_result(wave_time, wave_img_abs, time):
 wave, sr = librosa.load('Аккорд_20.mp3')
 wave_time = np.vectorize(lambda t: wave[int(t * sr)])
 time = len(wave) / sr 
-wave_image = wave_fourier_image(wave_time, 0, 0.05)
+wave_image = wave_fourier_image(wave_time, 0, 0.15)
 wave_image_abs = lambda t: abs(wave_image(t))
 visualize_result(wave_time, wave_image_abs, time)
 plt.show()
